@@ -52,8 +52,8 @@ def main(args):
     '''
     TODO: Create your loss and optimizer
     '''
-    loss_criterion = None
-    optimizer = None
+    loss_criterion = nn.CrossEntropyLoss()
+    optimizer = optim.Adam(model.parameters(), lr=args.lr)
     
     '''
     TODO: Call the train function to start training your model
