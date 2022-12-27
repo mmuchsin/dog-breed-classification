@@ -4,4 +4,4 @@ env_setup.sh
 data/dogImages.zip
 .env
 ./dogImages
-dog-breed-classification/dogImages
+dog-breed-classification/dogImages/*
