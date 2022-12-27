@@ -2,3 +2,4 @@
 env_setup.sh
 *.pub
 data/dogImages.zip
+.env
