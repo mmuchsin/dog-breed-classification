@@ -8,9 +8,8 @@ import os
 import time
 import torch
 import torch.backends.cudnn as cudnn
-import torch.nn as nn
-import torch.optim as optim
-
+from torch import nn
+from torch import optim
 from PIL import ImageFile
 from torch.optim import lr_scheduler
 from torchvision import datasets, models, transforms
