@@ -20,7 +20,7 @@ logger.setLevel(logging.INFO)
 logger.addHandler(logging.StreamHandler(sys.stdout))
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
-cudnn.benchmark = True
+#cudnn.benchmark = True
 
 
 def create_args():
