@@ -8,8 +8,7 @@ from PIL import Image
 import torch
 import torchvision
 import torch.nn as nn
-import torch.nn.functional as F
-from torchvision import datasets, models, transforms
+from torchvision import models, transforms
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -44,6 +43,7 @@ def input_fn(request_body, request_content_type):
     transformer = transforms.Compose([
         transforms.Resize((224, 224)),
         transforms.ToTensor(),
+        transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
     ])
     data = transformer(img)
     return data
