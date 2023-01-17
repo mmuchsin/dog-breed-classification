@@ -13,7 +13,7 @@ from torch import optim
 from PIL import ImageFile
 from torch.optim import lr_scheduler
 from torchvision import datasets, models, transforms
-#TODO: Import dependencies for Debugging andd Profiling
+#TODO: Import dependencies for Debugging and Profiling
 import smdebug.pytorch as smd
 
 logger=logging.getLogger(__name__)
@@ -240,10 +240,11 @@ def main(args):
     """
     TODO: Save the trained model
     """
-    t = time.time()
-    time_stamp = time.strftime('%Y-%m-%d %H:%M %Z', time.localtime(t))
-    model_name = f"{model.__class__.__name__}-{time_stamp}.pth"
-    torch.save(model, os.path.join(args.model_dir, model_name))
+    #t = time.time()
+    #time_stamp = time.strftime('%Y-%m-%d %H:%M %Z', time.localtime(t))
+    #model_name = f"{model.__class__.__name__}-{time_stamp}.pth"
+    #torch.save(model, os.path.join(args.model_dir, model_name))
+    torch.save(model.state_dict(), os.path.join(args.model_dir, "model.pth"))
 
 
 if __name__ == "__main__":
