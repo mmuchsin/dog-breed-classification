@@ -5,3 +5,4 @@ data/dogImages.zip
 .env
 ./dogImages
 dog-breed-classification/dogImages/*
+dogImages.zip
