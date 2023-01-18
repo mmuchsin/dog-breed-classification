@@ -1,3 +1,8 @@
-.vscode/extensions.txt
-.vscode/tasks.json
-.vscode/settings.json
+.vscode
+env_setup.sh
+*.pub
+data/dogImages.zip
+.env
+./dogImages
+dog-breed-classification/dogImages/*
+dogImages.zip
