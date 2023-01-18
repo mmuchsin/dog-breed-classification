@@ -56,11 +56,20 @@ The objective of this project is to create a deep learning model that is capable
 The datasets have been split to train, validation, and test set. The train set contains 6680 images divided into 133 classes corresponding to the dog breeds. The validation set contains 835 images and the test set contains 836 images. Both the validation set and test set have images for each class to check model performance.
 
 ### Hyperparameter Tuning
-- screenshot
+```python
+hyperparameter_ranges = {
+    "epochs": IntegerParameter(3, 21),
+    "learning_rate": ContinuousParameter(1e-5, 0.1),
+    "step_size": IntegerParameter(1, 3),
+    "gamma": CategoricalParameter([0.25, 0.5]),
+    "batch_size": CategoricalParameter([32, 64, 128, 256, 512]),
+}
+```
 <div align='left'>
    <img src="src/img/2-hpo_crop.png" alt="hpo"style="width: 720;"/>
 </div>
-- top 3 training job
+
+#### top 3 training job
   
 | batch_size | epochs | gamma | learning_rate | step_size | TrainingJobName | TrainingJobStatus | FinalObjectiveValue | TrainingStartTime | TrainingEndTime | TrainingElapsedTimeSeconds |  |
 |---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
@@ -68,7 +77,7 @@ The datasets have been split to train, validation, and test set. The train set c
 | "64" | 21.0 | "0.5" | 0.002352 | 3.0 | dog-breed-clf-hpo-230113-0640-011-e6297d35 | Completed | 0.8743 | 2023-01-13 07:30:34+00:00 | 2023-01-13 07:56:12+00:00 | 1538.0 |  |
 | "256" | 21.0 | "0.25" | 0.015431 | 3.0 | dog-breed-clf-hpo-230113-0640-016-5401b3c0 | Completed | 0.8659 | 2023-01-13 08:00:47+00:00 | 2023-01-13 08:27:09+00:00 | 1582.0 |  |
 
-- best hyperparameters:
+#### best hyperparameters:
 ```python
 {
    'batch_size': '32',
