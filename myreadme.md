@@ -1,24 +1,3 @@
-Project Set Up and Data
-
-The submitted project contains a README file that contains:
-
-A short introduction of the project
-Project Setup Instructions
-Explanations of the different files used in the project
-Code sample for querying a model endpoint
-Explain insights from the model
-At least 2 relevant and informative images, terminal outputs, or screenshots
-
-Hyperparameter Optimization
-The submitted README file contains a screenshot of your hyperparameter tuning job that shows at least 2 different training runs and their results.
-
-Profiler and Debugger
-The Jupyter notebook or the README should include a line plot showing the status of a variable throughout the training process.
-In case the plot shows an anomalous behavior, the Jupyter notebook or README should include the steps they took to debug it. If not, it should include the steps they would have to take to debug an error.
-
-Model Deployment
-The README should also contain a screenshot showing an active endpoint in SageMaker
-
 # Dog Breed Image Classifications with Pytorch (ResNet50) and AWS Sagemaker
 
 The objective of this project is to create a deep learning model that is capable of identifying 133 different breeds of dogs. This project will use [Pytorch](https://pytorch.org/) as a deep learning framework and [Resnet50](https://pytorch.org/vision/main/models/generated/torchvision.models.resnet50.html) as a pre-trained model. The dataset used can be accessed from [here](https://s3-us-west-1.amazonaws.com/udacity-aind/dog-project/dogImages.zip). This project will outlines the process for an end-to-end image classification project, utilizing the resources and capabilities of AWS Sagemaker.
@@ -53,8 +32,7 @@ The objective of this project is to create a deep learning model that is capable
 ## Project Overview
 
 ### Dataset
-The datasets have been split to train, validation, and test set. The train set contains 6680 images divided into 133 classes corresponding to the dog breeds. The validation set contains 835 images and the test set contains 836 images. Both the validation set and test set have images for each class to check model performance.
-
+The datasets have been split to train, validation, and test set. The train set contains 6680 images divided into 133 classes corresponding to the dog breeds. The validation set contains 835 images and the test set contains 836 images.
 ### Hyperparameter Tuning
 ```python
 hyperparameter_ranges = {
@@ -87,6 +65,40 @@ hyperparameter_ranges = {
 }
 ```
 ### Debugging and Profiling
-![dp]()
+#### Debugging Summary
+|    | RuleConfigurationName    | RuleEvaluationJobArn                                                                                                 | RuleEvaluationStatus   | LastModifiedTime           | StatusDetails                                                                                                             |
+|---:|:-------------------------|:---------------------------------------------------------------------------------------------------------------------|:-----------------------|:---------------------------|:--------------------------------------------------------------------------------------------------------------------------|
+|  0 | VanishingGradient        | arn:aws:sagemaker:us-east-1:493104814313:processing-job/dog-breed-clf-dp-2023-01-1-vanishinggradient-93c4008b        | NoIssuesFound          | 2023-01-17 14:05:38.944000 | nan                                                                                                                       |
+|  1 | Overfit                  | arn:aws:sagemaker:us-east-1:493104814313:processing-job/dog-breed-clf-dp-2023-01-1-overfit-118d191a                  | NoIssuesFound          | 2023-01-17 14:05:38.944000 | nan                                                                                                                       |
+|  2 | Overtraining             | arn:aws:sagemaker:us-east-1:493104814313:processing-job/dog-breed-clf-dp-2023-01-1-overtraining-547807ea             | Error                  | 2023-01-17 14:05:38.944000 | InternalServerError: We encountered an internal error. Please try again.                                                  |
+|  3 | PoorWeightInitialization | arn:aws:sagemaker:us-east-1:493104814313:processing-job/dog-breed-clf-dp-2023-01-1-poorweightinitialization-fbf738bd | IssuesFound            | 2023-01-17 14:05:38.944000 | RuleEvaluationConditionMet: Evaluation of the rule PoorWeightInitialization at step 0 resulted in the condition being met |
+|  4 | LossNotDecreasing        | arn:aws:sagemaker:us-east-1:493104814313:processing-job/dog-breed-clf-dp-2023-01-1-lossnotdecreasing-5cc208d6        | Error                  | 2023-01-17 14:05:38.944000 | InternalServerError: We encountered an internal error. Please try again.                                                  |
+
+
+#### Profiler Result
+[profiler-report](./ProfilerReport/profiler-output/profiler-report.html)
+
+
 ### Model Deployment
 ![endpoint](src/img/3-endpoint_crop.png)
+#### inference testing
+```python
+test_classes = {v: k for k, v in test_dataset.class_to_idx.items()}
+
+img_path = "./dogImages/test/001.Affenpinscher/Affenpinscher_00071.jpg"
+with open(img_path,"rb") as img:
+    b_img = img.read()
+    
+res = predictor.predict(b_img)
+idx = torch.argmax(torch.tensor(res), 1)
+pred_class = test_classes.get(idx.item())
+probs = F.softmax(torch.tensor(res), 1).squeeze()
+prob = probs[idx.item()]
+
+preview = Image.open(img_path)
+plt.imshow(preview)
+
+print(f"prediction: {pred_class}, probability: {prob: .4f}")
+```
+
+![inference](src/img/4-inference.png)
