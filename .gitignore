@@ -1,5 +1,3 @@
-.vscode
-env_setup.sh
-*.pub
-data/dogImages.zip
-.env
+.vscode/extensions.txt
+.vscode/settings.json
+.vscode/tasks.json

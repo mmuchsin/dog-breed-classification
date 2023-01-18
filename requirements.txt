@@ -1,6 +1,0 @@
-sagemaker
-boto3
-pandas
-numpy
-matplotlib
-seaborn
